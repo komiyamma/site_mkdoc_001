@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# MkDocs build
+site/
+
+# VSCode
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

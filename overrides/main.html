@@ -27,4 +27,29 @@
       }
     }
   </script>
+  {# パンくずリストのJSON-LD #}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "ホーム",
+          "item": "{{ config.site_url or '/' }}"
+        }
+        {%- set parts = page.url.strip('/').split('/') if page.url else [] -%}
+        {%- set path = '' -%}
+        {%- for i, part in enumerate(parts) if part and part != 'index.html' -%}
+        ,{
+          "@type": "ListItem",
+          "position": {{ i+2 }},
+          "name": "{{ part|replace('_',' ')|replace('-',' ') }}",
+          "item": "{{ config.site_url ~ '/' ~ '/'.join(parts[:i+1]) ~ '/' }}"
+        }
+        {%- endfor -%}
+      ]
+    }
+  </script>
 {% endblock %}

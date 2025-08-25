@@ -6,6 +6,7 @@ extra:
     - https://github.com/komiyamma
   default_image: assets/images/default_ogp.png
 site_name: My MkDocs Site
+site_url: https://news.komiyamma.net
 theme:
   name: material
   custom_dir: overrides

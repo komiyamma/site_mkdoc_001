@@ -1,52 +1,58 @@
 
+
 # mkdoc_site001
 
-## このリポジトリについて
+## 概要
 
-AI（GitHub Copilot）によって自動構築された、カスタマイズ重視のMkDocsサイト環境です。
-標準的なMkDocsと異なり、以下の独自仕様・拡張を採用しています。
-
----
-
-## 標準MkDocsとの差分・独自仕様
-
-- **.memoファイルによるdescription自動化**
-	- 各記事（.md）と同じ場所・同名で拡張子だけ`.memo`にしたテキストファイルを配置
-	- 例: `docs/programming/python_intro.md` → `docs/programming/python_intro.memo`
-	- `.memo`の内容がdescription（構造化データ/OGP等）に自動反映
-- **自作プラグインのローカルパッケージ化**
-	- `pip install -e .` で有効化（`setup.py`あり）
-- **カテゴリ・記事の日本語ナビゲーション**
-	- `mkdocs.yml`の`nav`で日本語名と英語パスを明示的に対応
-- **OGP/Twitter Card/JSON-LD自動出力**
-	- `overrides/main.html`で構造化データ（Article/BreadcrumbList）を全ページ自動生成
-- **Python 3.13以降必須**
-- **サーバープレビューはポート6283を推奨**
-- **`site_url`は本番公開時に必ず設定**
+このリポジトリは、カスタマイズ重視のMkDocsサイト構築環境です。  
+AI（GitHub Copilot）による自動化・独自拡張を取り入れ、以下の特徴を持ちます。
 
 ---
 
-## 環境再現手順
+## 主な特徴
 
-1. Python 3.13以降をインストール
-2. 必要なパッケージをインストール（このリポジトリ直下で実行）
+- **記事ごとの.memoファイルによるdescription自動化**  
+	各Markdown記事と同名・同階層に`.memo`ファイルを配置し、記事のdescriptionやOGP、構造化データに自動反映します。
+
+- **自作MkDocsプラグインのローカルパッケージ化**  
+	`setup.py`を用意し、`pip install -e .`で開発・拡張が容易です。
+
+- **日本語ナビゲーション**  
+	`mkdocs.yml`の`nav`で日本語カテゴリ・記事名と英語パスを明示的に対応。
+
+- **OGP/Twitter Card/JSON-LD自動出力**  
+	`overrides/main.html`で全ページに構造化データ（Article/BreadcrumbList）を自動生成。
+
+- **Python 3.13以降必須**  
+	最新のPython環境で動作します。
+
+- **サーバープレビューはポート6283を推奨**  
+	複数プロジェクト併用時の競合を避けるため、`mkdocs serve -a 127.0.0.1:6283`を推奨。
+
+---
+
+## セットアップ手順
+
+1. **Python 3.13以降をインストール**
+2. **依存パッケージのインストール**
 	 ```sh
 	 pip install mkdocs mkdocs-material
 	 pip install -e .
 	 ```
-3. サイトのビルド
+3. **ビルド**
 	 ```sh
 	 mkdocs build
 	 ```
-4. ローカルプレビュー（例: ポート6283で起動）
+4. **ローカルプレビュー（推奨ポート6283）**
 	 ```sh
 	 mkdocs serve -a 127.0.0.1:6283
 	 ```
-5. `site/` フォルダをWebサーバーにアップロード
+5. **公開**
+	 - `site/` フォルダをWebサーバーにアップロード
 
 ---
 
-## .memoファイル仕様まとめ
+## .memoファイル仕様
 
 - 各記事（.md）と同じ場所・同名で拡張子だけ`.memo`にする
 - 例: `docs/programming/python_intro.md` → `docs/programming/python_intro.memo`
@@ -55,21 +61,19 @@ AI（GitHub Copilot）によって自動構築された、カスタマイズ重�
 
 ---
 
-## その他
+## サーバーの安全なリスタート
 
-- OGP/構造化データ/パンくずリストは全ページ自動生成
-- 記事・カテゴリの日本語表示は`mkdocs.yml`の`nav`で制御
-- 本番公開時は`mkdocs.yml`の`site_url`を必ず実際のドメインに設定
-
----
-
-このREADMEもAIによって自動生成されています。
+- サイト構成や記事の大幅な変更時は、`mkdocs_restart.ps1`でサーバーを安全に再起動
+- VS Codeの「タスク」から「Restart MkDocs Server」を実行可能
 
 ---
 
-## MkDocsサーバーの安全なリスタート運用
+## 注意事項
 
-- サイト構成や記事ファイルの大幅な追加・削除・移動後は、サーバーのリスタートが必要です。
-- ルート直下の `mkdocs_restart.ps1` を実行すると、ポート6283のMkDocsサーバーだけを安全に再起動できます。
-- VS Codeの「タスクの実行」から「Restart MkDocs Server」を選ぶと、PowerShellスクリプトが自動実行されます。
-- F5キーのデバッグ構成からは直接ps1は実行できないため、タスクまたはターミナルから実行してください。
+- 本番公開時は`mkdocs.yml`の`site_url`を必ず実際のドメインに設定してください
+- OGP/構造化データ/パンくずリストは全ページ自動生成されます
+- 記事・カテゴリの日本語表示は`mkdocs.yml`の`nav`で制御します
+
+---
+
+このREADMEはAIによって自動生成・管理されています。

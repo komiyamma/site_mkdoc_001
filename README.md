@@ -10,12 +10,33 @@
 
 AIによるドキュメントサイト構築のやりやすさ・自動化の検証
 
-## 使い方
+## 環境再現手順
 
-1. PythonとMkDocsのインストール（`requirements.txt`不要、pipで直接インストール済み）
-2. `mkdocs serve` でローカルプレビュー
-3. `mkdocs build` で静的サイト生成
-4. `site/` フォルダをWebサーバーにアップロード
+
+1. Python 3.13以降をインストール
+
+2. 必要なパッケージをインストール（コマンド例）
+
+	```sh
+	pip install mkdocs mkdocs-material
+	pip install -e .
+	```
+
+	※このリポジトリ直下で実行してください（自作プラグイン有効化のため）
+
+3. サイトのビルド
+
+	```sh
+	mkdocs build
+	```
+
+4. ローカルプレビュー（例: ポート6283で起動）
+
+	```sh
+	mkdocs serve -a 127.0.0.1:6283
+	```
+
+5. `site/` フォルダをWebサーバーにアップロード
 
 ---
 

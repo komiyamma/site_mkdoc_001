@@ -2,57 +2,84 @@
 
 {% block extrahead %}
   {{ super() }}
-  {# OGPタグ例 #}
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="{{ page.title }}">
-  <meta property="og:description" content="{{ (page.meta and page.meta.description) or config.site_description }}">
-  <meta property="og:url" content="{{ page.canonical_url }}">
+  {# Define fallbacks for 404 page where 'page' object is not available #}
+  {% set page_title = page.title if page else "Page Not Found" %}
+  {% set page_description = (page.meta.description if page and page.meta) or config.site_description %}
+  {% set page_url = page.canonical_url if page else (config.site_url | string + '/404.html' | url) %}
+
+  {# OGP Tags #}
+  <meta property="og:type" content="{{ 'article' if page and page.file else 'website' }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:url" content="{{ page_url }}">
   <meta property="og:site_name" content="{{ config.site_name }}">
-  {# Twitter Card例 #}
+
+  {# OGP Image Logic #}
+  {% set image_url = (page.meta.image if page and page.meta else None) or config.extra.default_image %}
+  {% if image_url %}
+    {% if not image_url.startswith('http') %}
+      {% set image_url = (config.site_url | string) + (image_url | url) %}
+    {% endif %}
+    <meta property="og:image" content="{{ image_url }}">
+    <meta name="twitter:image" content="{{ image_url }}">
+  {% endif %}
+
+  {# Twitter Card Tags #}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ page.title }}">
-  <meta name="twitter:description" content="{{ (page.meta and page.meta.description) or config.site_description }}">
-  {# JSON-LD例 #}
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "{{ page.title }}",
-  "description": "{{ (page.meta and page.meta.description) or config.site_description }}",
-      "url": "{{ page.canonical_url }}",
-  "datePublished": "{{ (page.meta and page.meta.date) or '' }}",
-      "author": {
-        "@type": "Person",
-        "name": "{{ (page.meta and page.meta.author) or config.extra.author or '' }}"{% if config.extra.author_alternate %},
-        "alternateName": "{{ config.extra.author_alternate }}"{% endif %}{% if config.extra.author_sameas %},
-        "sameAs": [
-          {% for url in config.extra.author_sameas %}"{{ url }}"{% if not loop.last %}, {% endif %}{% endfor %}
-        ]{% endif %}
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page_description }}">
+
+  {# Render structured data only for actual content pages #}
+  {% if page and page.file %}
+    {# Article JSON-LD #}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "{{ page_title }}",
+        "description": "{{ page_description }}",
+        "url": "{{ page_url }}",
+        "datePublished": "{{ (page.meta.date if page.meta else None) or '' }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ (page.meta.author if page.meta else None) or config.extra.author or '' }}"{% if config.extra.author_alternate %},
+          "alternateName": "{{ config.extra.author_alternate }}"{% endif %}{% if config.extra.author_sameas %},
+          "sameAs": [
+            {% for url in config.extra.author_sameas %}"{{ url }}"{% if not loop.last %}, {% endif %}{% endfor %}
+          ]{% endif %}
+        }
       }
-    }
-  </script>
-  {# パンくずリストのJSON-LD #}
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "ホーム",
-          "item": "{{ config.site_url or '/' }}"
-        }
-        {%- set parts = page.url.strip('/').split('/') if page.url else [] -%}
-        {%- for part in parts if part and part != 'index.html' -%}
-        ,{
-          "@type": "ListItem",
-          "position": {{ loop.index + 1 }},
-          "name": "{{ part|replace('_',' ')|replace('-',' ') }}",
-          "item": "{{ config.site_url ~ '/' ~ '/'.join(parts[:loop.index]) ~ '/' }}"
-        }
-        {%- endfor -%}
-      ]
-    }
-  </script>
+    </script>
+    {# Breadcrumb JSON-LD (Corrected) #}
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ホーム",
+            "item": "{{ config.site_url or '/' }}"
+          }
+          {% for nav_item in page.ancestors %}
+          ,{
+            "@type": "ListItem",
+            "position": {{ loop.index + 1 }},
+            "name": "{{ nav_item.title }}",
+            "item": "{{ nav_item.canonical_url }}"
+          }
+          {% endfor %}
+          {% if not page.is_homepage %}
+          ,{
+            "@type": "ListItem",
+            "position": {{ page.ancestors | length + 2 }},
+            "name": "{{ page_title }}",
+            "item": "{{ page_url }}"
+          }
+          {% endif %}
+        ]
+      }
+    </script>
+  {% endif %}
 {% endblock %}

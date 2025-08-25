@@ -4,24 +4,8 @@ extra:
   author_sameas:
     - https://x.com/komiyamma
     - https://github.com/komiyamma
+  default_image: assets/images/default_ogp.png
 site_name: My MkDocs Site
-nav:
-  - ホーム: index.md
-  - プログラミング:
-    - Python入門: programming/python_intro.md
-    - JavaScript基礎: programming/js_basics.md
-    - Web開発の流れ: programming/web_flow.md
-    - Gitの使い方: programming/git_usage.md
-  - ライフハック:
-    - 時間管理術: lifehack/time_management.md
-    - 片付けのコツ: lifehack/cleaning_tips.md
-    - 効率的な勉強法: lifehack/study_tips.md
-    - 目標設定の方法: lifehack/goal_setting.md
-  - テクノロジー:
-    - AIの基礎: tech/ai_basics.md
-    - クラウドとは: tech/cloud_intro.md
-    - IoT入門: tech/iot_intro.md
-    - サイバーセキュリティ: tech/cyber_security.md
 theme:
   name: material
   custom_dir: overrides
@@ -30,4 +14,5 @@ plugins:
       lang:
         - ja
         - en
-  - description_from_memo:
+  - description_from_memo
+  - awesome-pages

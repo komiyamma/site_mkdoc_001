@@ -23,7 +23,11 @@
   "datePublished": "{{ (page.meta and page.meta.date) or '' }}",
       "author": {
         "@type": "Person",
-  "name": "{{ (page.meta and page.meta.author) or config.extra.author or '' }}"
+        "name": "{{ (page.meta and page.meta.author) or config.extra.author or '' }}"{% if config.extra.author_alternate %},
+        "alternateName": "{{ config.extra.author_alternate }}"{% endif %}{% if config.extra.author_sameas %},
+        "sameAs": [
+          {% for url in config.extra.author_sameas %}"{{ url }}"{% if not loop.last %}, {% endif %}{% endfor %}
+        ]{% endif %}
       }
     }
   </script>
@@ -40,13 +44,12 @@
           "item": "{{ config.site_url or '/' }}"
         }
         {%- set parts = page.url.strip('/').split('/') if page.url else [] -%}
-        {%- set path = '' -%}
-        {%- for i, part in enumerate(parts) if part and part != 'index.html' -%}
+        {%- for part in parts if part and part != 'index.html' -%}
         ,{
           "@type": "ListItem",
-          "position": {{ i+2 }},
+          "position": {{ loop.index + 1 }},
           "name": "{{ part|replace('_',' ')|replace('-',' ') }}",
-          "item": "{{ config.site_url ~ '/' ~ '/'.join(parts[:i+1]) ~ '/' }}"
+          "item": "{{ config.site_url ~ '/' ~ '/'.join(parts[:loop.index]) ~ '/' }}"
         }
         {%- endfor -%}
       ]

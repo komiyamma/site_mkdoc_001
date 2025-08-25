@@ -1,5 +1,9 @@
 extra:
   author: komiyamma
+  author_alternate: こみやんま
+  author_sameas:
+    - https://x.com/komiyamma
+    - https://github.com/komiyamma
 site_name: My MkDocs Site
 nav:
   - ホーム: index.md

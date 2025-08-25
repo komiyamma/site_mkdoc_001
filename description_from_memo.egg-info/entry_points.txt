@@ -1,0 +1,2 @@
+[mkdocs.plugins]
+description_from_memo = plugins.description_from_memo:Plugin

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  {# OGPタグ例 #}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ (page.meta and page.meta.description) or config.site_description }}">
+  <meta property="og:url" content="{{ page.canonical_url }}">
+  <meta property="og:site_name" content="{{ config.site_name }}">
+  {# Twitter Card例 #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="{{ (page.meta and page.meta.description) or config.site_description }}">
+  {# JSON-LD例 #}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "{{ page.title }}",
+  "description": "{{ (page.meta and page.meta.description) or config.site_description }}",
+      "url": "{{ page.canonical_url }}",
+  "datePublished": "{{ (page.meta and page.meta.date) or '' }}",
+      "author": {
+        "@type": "Person",
+  "name": "{{ (page.meta and page.meta.author) or config.extra.author or '' }}"
+      }
+    }
+  </script>
+{% endblock %}

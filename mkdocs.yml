@@ -1,3 +1,5 @@
+extra:
+  author: komiyamma
 site_name: My MkDocs Site
 nav:
   - ホーム: index.md
@@ -18,8 +20,10 @@ nav:
     - サイバーセキュリティ: tech/cyber_security.md
 theme:
   name: material
+  custom_dir: overrides
 plugins:
   - search:
       lang:
         - ja
         - en
+  - description_from_memo:

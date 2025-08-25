@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: description-from-memo
+Version: 0.1.0
+Summary: MkDocs plugin: use .memo file as description
+Requires-Dist: mkdocs
+Dynamic: requires-dist
+Dynamic: summary

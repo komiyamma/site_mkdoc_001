@@ -11,4 +11,4 @@ if ($mkdocs_pid) {
 	Start-Sleep -Seconds 1
 }
 Write-Host "Starting MkDocs server on port $port..."
-Start-Process -NoNewWindow -FilePath "C:/usr/python/python.exe" -ArgumentList "-m mkdocs serve -a 127.0.0.1:$port"
+Start-Process -NoNewWindow python -ArgumentList "-m mkdocs serve -a 127.0.0.1:$port"

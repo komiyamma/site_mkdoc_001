@@ -8,7 +8,13 @@ __pycache__/
 site/
 
 # VSCode
-.vscode/
+
+# .vscode フォルダ内の共有したいファイルのみを追跡し、それ以外は無視する
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/settings.json
+# それ以外の .vscode 配下は無視
+.vscode/*
 
 # OS
 .DS_Store

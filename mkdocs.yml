@@ -18,3 +18,8 @@ nav:
     - サイバーセキュリティ: tech/cyber_security.md
 theme:
   name: material
+plugins:
+  - search:
+      lang:
+        - ja
+        - en

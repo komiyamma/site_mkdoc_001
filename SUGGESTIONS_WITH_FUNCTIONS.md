@@ -1,6 +1,6 @@
 # Cloudflare Functions 活用提案
 
-このMkDocsサイトをCloudflare Pagesでホスティングし、Cloudflare Functions（Cloudflare Workers）を組み合わせることで、静的サイトの利点（高速表示、高いセキュリティ）を維持しつつ、様々な動的機能を追加できます。
+このMkDocsサイトをCloudflare Pagesでホスティングし、Cloudflare Functions（Cloudflare Workers）を組み合わせることで、静的サイトの利点（高速表示、高いセキュリティ）を維持しつつ、さまざまな動的機能を追加できます。
 
 以下に、Cloudflare Functionsで実現できることの提案をまとめました。
 

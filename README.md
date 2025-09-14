@@ -2,7 +2,7 @@
 
 # site mkdoc_001
 
-(ここにバージョンバッジを追加しては？ ビルド番号も引っ張ってくる）
+[![GitHub release](https://img.shields.io/github/v/release/komiyamma/site_mkdoc_001)](https://github.com/komiyamma/site_mkdoc_001/releases)
 
 このリポジトリの構成や設定例（mkdocs など）はあくまで一例です。ご自身の用途や好みに合わせて自由に書き換えてご利用ください。
 特に、`mkdocs.yml` の内容もプロジェクト例として記載しています。必要に応じて自由に編集・カスタマイズしてください。
